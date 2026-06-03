@@ -71,11 +71,16 @@ program
   .command("run")
   .argument("[task-id]", "Task ID to run")
   .option("--next", "Run next eligible task")
+  .option("--all", "Run all eligible tasks sequentially")
   .option("--epic <id>", "Run all tasks in an epic")
-  .description("Execute task(s)")
+  .description("Execute task(s) autonomously with Team Lead orchestration")
   .action(async (taskId, opts) => {
     const { runTask } = await import("./commands/run.js");
-    await runTask(process.cwd(), taskId, opts);
+    await runTask(process.cwd(), taskId, {
+      next: opts.next,
+      all: opts.all,
+      epic: opts.epic,
+    });
   });
 
 program
