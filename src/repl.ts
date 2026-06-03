@@ -139,11 +139,13 @@ export function startRepl(_program: Command) {
 
     const handler = commands[cmd];
     if (handler) {
+      rl!.pause();
       try {
         await handler(args, process.cwd());
       } catch (err) {
         console.error(`Error: ${err instanceof Error ? err.message : String(err)}`);
       }
+      rl!.resume();
     } else {
       console.log(`Unknown command: ${cmd}. Type /help for available commands.`);
     }
